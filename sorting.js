@@ -23,6 +23,18 @@ function randomizeArray(len=visualLen,min=-500,max=500) {
   updateRandomArray();
 }
 
+function updateRandomArray() {
+  document.getElementById('originalArr').innerHTML = 'Generated Random Array: [' + unsortedArr.toString() + ']';
+}
+
+function updateSortedArray(sort) {
+  document.getElementById('sortedArr').innerHTML = 'Sorted Using ' + sort + ' Sort: [' + sortedArr.toString() + ']';
+}
+
+
+
+// // sorting algorithms
+// O(n^2) time complexity
 function selectionSort() {
   sortedArr = unsortedArr.copyWithin();
 
@@ -46,13 +58,24 @@ function selectionSort() {
       sortedArr[index] = temp;
     }
   }
-  updateSortedArray();
+  updateSortedArray('Selection');
 }
 
-function updateRandomArray() {
-  document.getElementById('originalArr').innerHTML = 'Generated Random Array: [' + unsortedArr.toString() + ']';
-}
+function insertionSort() {
+  for (let i = 0; i < visualLen; i++) {
+    sortedArr = unsortedArr.copyWithin();
+    let curr = sortedArr[i];
+    let index = i;
 
-function updateSortedArray() {
-  document.getElementById('sortedArr').innerHTML = 'Sorted Using Selection Sort: [' + sortedArr.toString() + ']';
+    //  swap until you find the right index
+    for (let j = i-1; j >= 0; j--) {
+      if (curr <= sortedArr[j]) {
+        sortedArr[index] = sortedArr[j]
+        sortedArr[j] = curr;
+        index--;
+      }
+    }
+  }
+
+  updateSortedArray('Insertion');
 }
