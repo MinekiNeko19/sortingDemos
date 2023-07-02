@@ -1,7 +1,14 @@
 <!DOCTYPE HTML> 
 <head>
-  
+  <title>Sorting Demos</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="sorting.js"></script>
 </head>
 <body>
-  
+  <div id="visuals">
+    <div class="lists" id="originalArr"></div>
+    <div class="lists" id="sortedArr"></div>
+    <button type="button" id="generateArr" onclick="randomizeArray(10)">Generate</button>
+    <button type="button" id="sortButton" onclick="selectionSort()">Sort</button>
+  </div>
 </body>
