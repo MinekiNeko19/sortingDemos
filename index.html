@@ -1,15 +1,27 @@
-<!DOCTYPE HTML> 
+<!DOCTYPE HTML>
+
 <head>
   <title>Sorting Demos</title>
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript" src="sorting.js"></script>
 </head>
+
 <body>
+  <div id="navbar">
+    <div class="sortType" onclick="chosen='selection';">Selection Sort</div>
+    <div class="sortType" onclick="chosen='insertion';">Insertion Sort</div>
+    <div class="sortType" onclick="chosen='quick';">Quick Sort</div>
+    <div class="sortType" onclick="chosen='merge';">Merge Sort</div>
+    <div class="sortType" onclick="chosen='heap';">Heap Sort</div>
+  </div>
+
   <div id="visuals">
     <div class="lists" id="originalArr"></div>
     <div class="lists" id="sortedArr"></div>
-    <button type="button" id="generateArr" onclick="randomizeArray()">Generate</button>
-    <button type="button" id="sortButton" onclick="insertionSort()">Sort</button>
+    <div id="controls">
+      <button type="button" id="generateArr" onclick="randomizeArray()">Generate</button>
+      <button type="button" id="sortButton" onclick="doSort()">Sort</button>
+    </div>
   </div>
 </body>
 
