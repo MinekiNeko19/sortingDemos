@@ -1,7 +1,7 @@
 let unsortedArr = []
 let sortedArr = [];
-let visualLen = 5;
-let chosen = 'selection';
+let visualLen = 10;
+let chosen = 'Selection';
 
 function randomizeArray(len = visualLen, min = -500, max = 500) {
   // will only fill array with ints from [-min,max]
@@ -45,27 +45,38 @@ function updateSortedArray(sort) {
 }
 
 function doSort() {
-  if (chosen==='selection') {
+  console.log(chosen);
+  if (chosen === 'Selection') {
     selectionSort();
   }
-  else if (chosen==='insertion') {
+  else if (chosen === 'Insertion') {
     insertionSort();
-  }  
-  else if (chosen==='quick') {
-    document.getElementById('sortedArr').innerHTML = "Quick Sort not implemented yet";
   }
-  else if (chosen==='merge') {
+  else if (chosen === 'Quick') {
+    sortedArr = unsortedArr.copyWithin();
+    quickSort(sortedArr, 0, visualLen-1);
+  }
+  else if (chosen === 'Merge') {
     document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
   }
-  else if (chosen==='heap') {
+  else if (chosen === 'Heap') {
     document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
   }
+  updateSortedArray(chosen);
+  // console.log(sortedArr);
 }
 
 // // sorting algorithms
+function swap(arr = sortedArr, i, j) {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
+
 // Best Case TC: O(n)
 // Worst Case TC: O(n^2)
 // different from bubble sort b/c bubble sort swaps automatically whereas selection sort will store the min and then swap
+// could be recoded to use the swap function
 function selectionSort() {
   sortedArr = unsortedArr.copyWithin();
 
@@ -89,12 +100,13 @@ function selectionSort() {
       sortedArr[index] = temp;
     }
   }
-  updateSortedArray('Selection');
+  // updateSortedArray('Selection');
 }
 
 
 // Best Case TC: O(n)
 // Worst Case TC: O(n^2)
+// could be recoded to use the helper swap function
 function insertionSort() {
   for (let i = 0; i < visualLen; i++) {
     sortedArr = unsortedArr.copyWithin();
@@ -111,13 +123,38 @@ function insertionSort() {
     }
   }
 
-  updateSortedArray('Insertion');
+  // updateSortedArray('Insertion');
 }
 
 // the pivot ultimately doesn't matter since it will be inserted at the right place anyway
 // everything will be a pivot at some level regardless
-// in this case we pick the pivot to be the first element
-function quickSort(arr = sortedArr) {
+// coded with help from geeksforgeeks https://www.geeksforgeeks.org/quick-sort/#
+function quickSort(arr = sortedArr, left, right) {
+  if (left < right) {
+    const piv = partition(arr, left, right);
+
+    // the pivot is already in the right place
+    quickSort(arr, left, piv - 1);
+    quickSort(arr, piv + 1, right)
+  }
+}
+// helper function that splits the array based on the pivot
+// pivot is the last element of the array
+function partition(arr = sortedArr, left, right) {
+  const pivot = arr[right];  
+  let i = left;
+
+  for (let j = left; j < right; j++) {
+    // puts all elements less than pivot to the left
+    if (arr[j] < pivot) {
+      swap(arr, i, j) // if i == j, nothing happens
+      i++;
+    }
+  }
+  
+  // i is currently at an index whose value >= pivot
+  swap(arr, i, right); // puts the pivot in the correct index
+  return i; // returns index of the pivot sorted
 }
 
 function mergeSortTopDown() { }
