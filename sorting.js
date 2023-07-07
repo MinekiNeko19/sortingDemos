@@ -183,7 +183,7 @@ function stepSort() {
   else if (chosen === 'Heap') {
     document.getElementById('sortedArr').innerHTML = "Heap Sort Steps not implemented yet";
   }
-  updateSortedArray(chosen);
+  // updateSortedArray(chosen);
   // console.log(sortedArr);
 }
 
@@ -192,7 +192,7 @@ function selectionSortStep() {
   interactiveArr = sortedArr.copyWithin();
 
   for (let i = 0; i < visualLen - 1; i++) {
-    let min = Number.MIN_VALUE;
+    let min = Number.MAX_VALUE;
     let index = -1;
     let temp = sortedArr[i];
 
@@ -209,6 +209,8 @@ function selectionSortStep() {
     }
     
     // the interactive part
+
+    // adding the new visuals
     const arr = document.createElement('div');
     arr.className = 'array';
     // const label = document.createElement('p');
@@ -221,6 +223,9 @@ function selectionSortStep() {
       item.innerHTML = interactiveArr[j];
       arr.appendChild(item);
     }
+    const label = document.createElement('p');
+    label.innerHTML = 'Step ' + Number(i+1) + ': ';
+    document.getElementById('sortedArr').appendChild(label);
     document.getElementById('sortedArr').appendChild(arr);
 
     // while (equals(sortedArr,interactiveArr)) {
