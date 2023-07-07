@@ -2,6 +2,9 @@
 
 <head>
   <title>Sorting Demos</title>
+  <!-- from https://css-tricks.com/emoji-as-a-favicon/ -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📃</text></svg>">
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript" src="sorting.js"></script>
 </head>
@@ -15,12 +18,19 @@
     <div class="sortType" onclick="chosen='Heap';">Heap Sort</div>
   </div>
 
-  <div id="visuals">
-    <div class="lists" id="originalArr"></div>
-    <div class="lists" id="sortedArr"></div>
-    <div id="controls">
-      <button type="button" id="generateArr" onclick="randomizeArray()">Generate</button>
-      <button type="button" id="sortButton" onclick="doSort()">Sort</button>
+  <div id="content">
+    <div id="information">
+
+    </div>
+
+    <div id="visuals">
+      <div id="controls">
+        <button type="button" id="generateArr" onclick="randomizeArray()">Generate</button>
+        <button type="button" id="sortButton" onclick="doSort()">Sort</button>
+        <button type="button" id="stepSortButton" onclick="stepSort()">Interactive Sort</button>
+      </div>
+      <div class="lists" id="originalArr"></div>
+      <div class="lists" id="sortedArr"></div>
     </div>
   </div>
 </body>

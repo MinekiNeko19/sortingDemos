@@ -1,5 +1,6 @@
-let unsortedArr = []
+let unsortedArr = [];
 let sortedArr = [];
+let interactiveArr = [];
 let visualLen = 10;
 let chosen = 'Selection';
 
@@ -29,7 +30,7 @@ function updateRandomArray() {
   unsortedArr.forEach((item) => randArr += ('<div class="item">' + item + '</div>'));
   // document.getElementById('originalArr').innerHTML = 'Generated Random Array: [' + unsortedArr.toString() + ']';
 
-  document.getElementById('originalArr').innerHTML = 'Generated Random Array: ' + randArr;
+  document.getElementById('originalArr').innerHTML = '<p>Generated Random Array: </p>' + randArr;
 }
 
 function updateSortedArray(sort) {
@@ -40,7 +41,7 @@ function updateSortedArray(sort) {
     unsortedArr.forEach((item) => randArr += ('<div class="item">' + item + '</div>'));
 
     // document.getElementById('sortedArr').innerHTML = 'Sorted Using ' + sort + ' Sort: [' + sortedArr.toString() + ']';
-    document.getElementById('sortedArr').innerHTML = 'Sorted Using ' + sort + ' Sort: ' + randArr;
+    document.getElementById('sortedArr').innerHTML = '<p>Sorted Using ' + sort + ' Sort: </p>' + randArr;
   }
 }
 
@@ -81,15 +82,16 @@ function selectionSort() {
   sortedArr = unsortedArr.copyWithin();
 
   for (let i = 0; i < visualLen - 1; i++) {
-    let min = Number.MIN_VALUE;
+    let min = Number.MAX_VALUE;
     let index = -1;
     let temp = sortedArr[i];
 
     // find the smallest number in the unsorted frame
     for (let j = i; j < visualLen; j++) {
-      if (min >= sortedArr[j]) {
+      if (min > sortedArr[j]) {
         min = sortedArr[j];
         index = j;
+        // console.log(min);
       }
     }
 
@@ -159,3 +161,77 @@ function partition(arr = sortedArr, left, right) {
 
 function mergeSortTopDown() { }
 function mergeSortBottomUp() { }
+
+// step by step sorting
+function stepSort() {
+  console.log(chosen);
+  if (chosen === 'Selection') {
+    selectionSortStep();
+  }
+  else if (chosen === 'Insertion') {
+    // insertionSort();    
+    document.getElementById('sortedArr').innerHTML = "Insertion Sort not implemented yet";
+  }
+  else if (chosen === 'Quick') {
+    // sortedArr = unsortedArr.copyWithin();
+    // quickSort(sortedArr, 0, visualLen-1);
+    document.getElementById('sortedArr').innerHTML = "Quick Sort Steps not implemented yet";
+  }
+  else if (chosen === 'Merge') {
+    document.getElementById('sortedArr').innerHTML = "Merge Sort Steps not implemented yet";
+  }
+  else if (chosen === 'Heap') {
+    document.getElementById('sortedArr').innerHTML = "Heap Sort Steps not implemented yet";
+  }
+  updateSortedArray(chosen);
+  // console.log(sortedArr);
+}
+
+function selectionSortStep() {
+  sortedArr = unsortedArr.copyWithin();
+  interactiveArr = sortedArr.copyWithin();
+
+  for (let i = 0; i < visualLen - 1; i++) {
+    let min = Number.MIN_VALUE;
+    let index = -1;
+    let temp = sortedArr[i];
+
+    // find the smallest number in the unsorted frame
+    for (let j = i; j < visualLen; j++) {
+      if (min >= sortedArr[j]) {
+        min = sortedArr[j];
+        index = j;
+      }
+    }
+    if (sortedArr[index] !== undefined) {
+      sortedArr[i] = min;
+      sortedArr[index] = temp;
+    }
+    
+    // the interactive part
+    const arr = document.createElement('div');
+    arr.className = 'array';
+    // const label = document.createElement('p');
+    // label.innerHTML = 'Step ' + i + ': ';
+    // arr.appendChild(label);
+
+    for (let j = 0; j < interactiveArr.length; j++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.innerHTML = interactiveArr[j];
+      arr.appendChild(item);
+    }
+    document.getElementById('sortedArr').appendChild(arr);
+
+    // while (equals(sortedArr,interactiveArr)) {
+
+    //   setTimeout(100);
+    // }
+  } 
+}
+
+function equals(arr1,arr2) {
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+}
