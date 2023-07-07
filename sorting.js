@@ -163,6 +163,9 @@ function mergeSortTopDown() { }
 function mergeSortBottomUp() { }
 
 // step by step sorting
+let swap1 = -1;
+let swap2 = -1;
+
 function stepSort() {
   console.log(chosen);
   if (chosen === 'Selection') {
@@ -209,26 +212,30 @@ function selectionSortStep() {
     }
     
     // the interactive part
-
-    // adding the new visuals
+    const vis = document.getElementById('sortedArr')
     const arr = document.createElement('div');
     arr.className = 'array';
-    // const label = document.createElement('p');
-    // label.innerHTML = 'Step ' + i + ': ';
-    // arr.appendChild(label);
 
     for (let j = 0; j < interactiveArr.length; j++) {
       const item = document.createElement('div');
       item.className = 'item';
+      item.setAttribute('id', j);
       item.innerHTML = interactiveArr[j];
+      if (j <= i) {
+        item.style.backgroundColor = '#ddd';
+      } else {
+        item.addEventListener('click', () =>  {
+          console.log('index ' + j + ' clicked');
+        });
+      }
       arr.appendChild(item);
     }
     const label = document.createElement('p');
     label.innerHTML = 'Step ' + Number(i+1) + ': ';
-    document.getElementById('sortedArr').appendChild(label);
-    document.getElementById('sortedArr').appendChild(arr);
+    vis.appendChild(label);
+    vis.appendChild(arr);
 
-    // while (equals(sortedArr,interactiveArr)) {
+    // while (!equals(sortedArr,interactiveArr)) {
 
     //   setTimeout(100);
     // }
@@ -239,4 +246,5 @@ function equals(arr1,arr2) {
   for (let i = 0; i < arr1.length; i++) {
     if (arr1[i] !== arr2[i]) return false;
   }
+  return true;
 }
