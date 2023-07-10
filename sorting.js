@@ -45,6 +45,22 @@ function updateSortedArray(sort) {
   }
 }
 
+// updating the webpage
+
+// active sort css changer with help from: https://www.w3schools.com/w3css/w3css_tabulators.asp
+function activeSort(type) {
+  chosen = type;
+  const nav = document.getElementsByClassName('selectedType');
+  console.log(nav);
+  for (let i = 0; i < nav.length; i++) {
+    // replace doesn't affect the original string
+    nav[i].className = nav[i].className.replace('selectedType','sortType');
+  }
+  const selected = document.getElementById(type);
+  selected.className = 'selectedType';
+
+}
+
 function doSort() {
   console.log(chosen);
   if (chosen === 'Selection') {
@@ -55,10 +71,11 @@ function doSort() {
   }
   else if (chosen === 'Quick') {
     sortedArr = unsortedArr.copyWithin();
-    quickSort(sortedArr, 0, visualLen-1);
+    quickSort(sortedArr, 0, visualLen - 1);
   }
   else if (chosen === 'Merge') {
     document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
+
   }
   else if (chosen === 'Heap') {
     document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
@@ -143,7 +160,7 @@ function quickSort(arr = sortedArr, left, right) {
 // helper function that splits the array based on the pivot
 // pivot is the last element of the array
 function partition(arr = sortedArr, left, right) {
-  const pivot = arr[right];  
+  const pivot = arr[right];
   let i = left;
 
   for (let j = left; j < right; j++) {
@@ -153,14 +170,29 @@ function partition(arr = sortedArr, left, right) {
       i++;
     }
   }
-  
+
   // i is currently at an index whose value >= pivot
   swap(arr, i, right); // puts the pivot in the correct index
   return i; // returns index of the pivot sorted
 }
 
-function mergeSortTopDown() { }
-function mergeSortBottomUp() { }
+// no recursion
+function mergeSortBottomUp() {}
+
+// uses recursion hence top down; also implements the bottom up merge sort
+function mergeSortTopDown(arr=sortedArr, left, right, copyArr = arr.copyWithin()) {
+  
+}
+
+
+
+
+
+
+
+
+
+
 
 // step by step sorting
 let swap1 = -1;
@@ -169,11 +201,12 @@ let swap2 = -1;
 function stepSort() {
   console.log(chosen);
   if (chosen === 'Selection') {
-    selectionSortStep();
+    // selectionSortStep();
+    document.getElementById('sortedArr').innerHTML = "Selection Sort Steps not implemented yet";
   }
   else if (chosen === 'Insertion') {
-    // insertionSort();    
-    document.getElementById('sortedArr').innerHTML = "Insertion Sort not implemented yet";
+    // insertionSort();
+    document.getElementById('sortedArr').innerHTML = "Insertion Sort Steps not implemented yet";
   }
   else if (chosen === 'Quick') {
     // sortedArr = unsortedArr.copyWithin();
@@ -191,6 +224,7 @@ function stepSort() {
 }
 
 function selectionSortStep() {
+  let proceed = false;
   sortedArr = unsortedArr.copyWithin();
   interactiveArr = sortedArr.copyWithin();
 
@@ -210,7 +244,7 @@ function selectionSortStep() {
       sortedArr[i] = min;
       sortedArr[index] = temp;
     }
-    
+
     // the interactive part
     const vis = document.getElementById('sortedArr')
     const arr = document.createElement('div');
@@ -224,25 +258,51 @@ function selectionSortStep() {
       if (j <= i) {
         item.style.backgroundColor = '#ddd';
       } else {
-        item.addEventListener('click', () =>  {
+        item.addEventListener('click', () => {
           console.log('index ' + j + ' clicked');
+          if (swap1 === -1) {
+            swap1 = j;
+            item.style.backgroundColor = '#cdcdff';
+          }
+          else if (swap2 === -1) {
+            swap2 = j;
+            item.style.backgroundColor = '#cdcdff';
+          }
         });
       }
       arr.appendChild(item);
     }
     const label = document.createElement('p');
-    label.innerHTML = 'Step ' + Number(i+1) + ': ';
+    label.innerHTML = 'Step ' + Number(i + 1) + ': ';
     vis.appendChild(label);
     vis.appendChild(arr);
 
-    // while (!equals(sortedArr,interactiveArr)) {
-
+    // while (!proceed) {
+    //   console.log('reached');
+    //   if (swap1 != -1 && swap2 != -1) {
+    //     // swap(interactiveArr,swap1,swap2); 
+    //     // if (!equals(sortedArr,interactiveArr)) {
+    //     //   interactiveArr = sortedArr.copyWithin;
+    //     //   document.getElementById(swap1).style.backgroundColor = '#fff';
+    //     //   document.getElementById(swap2).style.backgroundColor = '#fff';
+    //     //   swap1 = -1;
+    //     //   swap2 = -1;
+    //     // } else {
+    //       proceed = true;
+    //     // }
+    //   }
     //   setTimeout(100);
     // }
-  } 
+    setTimeout(() =>{console.log(i);},1000);
+    // Do this instead
+    // setTimeout(() => {
+    //   console.log("Hello World!");
+    // }, 5000);
+
+  }
 }
 
-function equals(arr1,arr2) {
+function equals(arr1, arr2) {
   for (let i = 0; i < arr1.length; i++) {
     if (arr1[i] !== arr2[i]) return false;
   }

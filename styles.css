@@ -11,6 +11,7 @@ body {
 }
 
 .sortType {
+  background-color: transparent;
   font-size: 14px;
   padding: 1em;
   color:white;
@@ -20,8 +21,17 @@ body {
 }
 
 .sortType:hover {
+  background-color: #aaa;
+}
+
+.selectedType {
   background-color: #fff;
+  font-size: 14px;
+  padding: 1em;
   color:black;
+  width:100%;
+  text-align: center;
+  transition:0.5s;
 }
 
 
