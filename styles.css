@@ -34,16 +34,33 @@ body {
   transition:0.5s;
 }
 
+#content {
+  display: flex;
+  justify-content: space-between;
+}
+
+#information {
+  padding: 4em;
+  width: 60%;
+}
 
 /* the sorting visuals and stuff */
 #visuals {
   display: grid;
   justify-content: center;
+  width: 40%;
 }
 
 #controls {
   display: inline-block;
   justify-self: center;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#stepsArr {
+  border-top: 3px solid #333;
+  max-height: 425px;
+  overflow-y: scroll;
 }
 
 .item {

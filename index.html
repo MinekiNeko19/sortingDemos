@@ -21,17 +21,24 @@
 
   <div id="content">
     <div id="information">
-
+      <h1 id="sort">Selection Sort</h1>
+      <p id="tc"><span id="bold">Time Complexity: </span> O(n<sup>2</sup>)</p>
+      <p id="method">Selection sort is an improved version of bubble sort. 
+        Iterate through the array and record the smallest value. 
+        Then swap the smallest value with the first unsorted value.
+        The values in the beginning of the array will be sorted.
+        This sorts the values from smallest to greatest.</p>
     </div>
 
     <div id="visuals">
+      <div class="lists" id="originalArr"></div>
+      <div class="lists" id="sortedArr"></div>
+      <div class="lists" id="stepsArr"></div>
       <div id="controls">
         <button type="button" id="generateArr" onclick="randomizeArray()">Generate</button>
         <button type="button" id="sortButton" onclick="doSort()">Sort</button>
-        <button type="button" id="stepSortButton" onclick="stepSort()">Step</button>
+        <button type="button" id="stepSortButton" onclick="stepSort()">Steps</button>
       </div>
-      <div class="lists" id="originalArr"></div>
-      <div class="lists" id="sortedArr"></div>
     </div>
   </div>
 </body>

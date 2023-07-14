@@ -1,6 +1,6 @@
 let unsortedArr = [];
 let sortedArr = [];
-let interactiveArr = [];
+let stepsArr = [];
 let visualLen = 10;
 let chosen = 'Selection';
 
@@ -15,6 +15,7 @@ function randomizeArray(len = visualLen, min = -500, max = 500) {
   // clear the old arrays
   unsortedArr = [];
   sortedArr = [];
+  stepsArr = [];
   updateSortedArray();
 
   for (let i = 0; i < len; i++) {
@@ -23,6 +24,9 @@ function randomizeArray(len = visualLen, min = -500, max = 500) {
   }
   // console.log(unsortedArr);
   updateRandomArray();
+
+  document.getElementById('sortedArr').innerHTML = '';
+  document.getElementById('stepsArr').innerHTML = '';
 }
 
 function updateRandomArray() {
@@ -38,7 +42,7 @@ function updateSortedArray(sort) {
     document.getElementById('sortedArr').innerHTML = '';
   } else {
     let randArr = '<div class="array">';
-    unsortedArr.forEach((item) => randArr += ('<div class="item">' + item + '</div>'));
+    sortedArr.forEach((item) => randArr += ('<div class="item">' + item + '</div>'));
 
     // document.getElementById('sortedArr').innerHTML = 'Sorted Using ' + sort + ' Sort: [' + sortedArr.toString() + ']';
     document.getElementById('sortedArr').innerHTML = '<p>Sorted Using ' + sort + ' Sort: </p>' + randArr;
@@ -58,7 +62,6 @@ function activeSort(type) {
   }
   const selected = document.getElementById(type);
   selected.className = 'selectedType';
-
 }
 
 function doSort() {
@@ -85,18 +88,14 @@ function doSort() {
 }
 
 // // sorting algorithms
-function swap(arr = sortedArr, i, j) {
-  const temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
-}
 
 // Best Case TC: O(n)
 // Worst Case TC: O(n^2)
 // different from bubble sort b/c bubble sort swaps automatically whereas selection sort will store the min and then swap
 // could be recoded to use the swap function
 function selectionSort() {
-  sortedArr = unsortedArr.copyWithin();
+  sortedArr = copyArray(unsortedArr);
+  // sortedArr = unsortedArr.copyWithin();
 
   for (let i = 0; i < visualLen - 1; i++) {
     let min = Number.MAX_VALUE;
@@ -120,6 +119,8 @@ function selectionSort() {
     }
   }
   // updateSortedArray('Selection');
+  console.log(unsortedArr);
+  console.log(sortedArr);
 }
 
 
@@ -127,6 +128,8 @@ function selectionSort() {
 // Worst Case TC: O(n^2)
 // could be recoded to use the helper swap function
 function insertionSort() {
+  console.log(unsortedArr);
+  console.log(sortedArr);
   for (let i = 0; i < visualLen; i++) {
     sortedArr = unsortedArr.copyWithin();
     let curr = sortedArr[i];
@@ -141,7 +144,8 @@ function insertionSort() {
       }
     }
   }
-
+  console.log(unsortedArr);
+  console.log(sortedArr);
   // updateSortedArray('Insertion');
 }
 
@@ -194,81 +198,75 @@ function mergeSortTopDown(arr=sortedArr, left, right, copyArr = arr.copyWithin()
 
 
 
-// step by step sorting
+// show the steps
 let swap1 = -1;
 let swap2 = -1;
 
 function stepSort() {
+  let stepsDiv = document.getElementById('stepsArr');
+  stepsDiv.innerHTML = '';
+
   console.log(chosen);
   if (chosen === 'Selection') {
-    // selectionSortStep();
-    document.getElementById('sortedArr').innerHTML = "Selection Sort Steps not implemented yet";
+    selectionSortStep();
+    // document.getElementById('sortedArr').innerHTML = "Selection Sort Steps not implemented yet";
   }
   else if (chosen === 'Insertion') {
     // insertionSort();
-    document.getElementById('sortedArr').innerHTML = "Insertion Sort Steps not implemented yet";
+    stepsDiv.innerHTML = "Insertion Sort Steps not implemented yet";
   }
   else if (chosen === 'Quick') {
     // sortedArr = unsortedArr.copyWithin();
     // quickSort(sortedArr, 0, visualLen-1);
-    document.getElementById('sortedArr').innerHTML = "Quick Sort Steps not implemented yet";
+    stepsDiv.innerHTML = "Quick Sort Steps not implemented yet";
   }
   else if (chosen === 'Merge') {
-    document.getElementById('sortedArr').innerHTML = "Merge Sort Steps not implemented yet";
+    stepsDiv.innerHTML = "Merge Sort Steps not implemented yet";
   }
   else if (chosen === 'Heap') {
-    document.getElementById('sortedArr').innerHTML = "Heap Sort Steps not implemented yet";
+    stepsDiv.innerHTML = "Heap Sort Steps not implemented yet";
   }
   // updateSortedArray(chosen);
   // console.log(sortedArr);
 }
 
 function selectionSortStep() {
-  let proceed = false;
-  sortedArr = unsortedArr.copyWithin();
-  interactiveArr = sortedArr.copyWithin();
+  // stepsArr = unsortedArr.copyWithin();
+  // console.log(unsortedArr);
+  // console.log(sortedArr);
+  stepsArr = copyArray(unsortedArr);
+  
+  const vis = document.getElementById('stepsArr');
+  vis.innerHTML = '';
 
   for (let i = 0; i < visualLen - 1; i++) {
     let min = Number.MAX_VALUE;
     let index = -1;
-    let temp = sortedArr[i];
+    let temp = stepsArr[i];
 
     // find the smallest number in the unsorted frame
     for (let j = i; j < visualLen; j++) {
-      if (min >= sortedArr[j]) {
-        min = sortedArr[j];
+      if (min >= stepsArr[j]) {
+        min = stepsArr[j];
         index = j;
       }
     }
-    if (sortedArr[index] !== undefined) {
-      sortedArr[i] = min;
-      sortedArr[index] = temp;
+    if (stepsArr[index] !== undefined) {
+      stepsArr[i] = min;
+      stepsArr[index] = temp;
     }
 
-    // the interactive part
-    const vis = document.getElementById('sortedArr')
+    // the interactive part // removing b/c the vision has changed
     const arr = document.createElement('div');
     arr.className = 'array';
 
-    for (let j = 0; j < interactiveArr.length; j++) {
+    for (let j = 0; j < stepsArr.length; j++) {
       const item = document.createElement('div');
       item.className = 'item';
       item.setAttribute('id', j);
-      item.innerHTML = interactiveArr[j];
+      item.innerHTML = stepsArr[j];
       if (j <= i) {
         item.style.backgroundColor = '#ddd';
-      } else {
-        item.addEventListener('click', () => {
-          console.log('index ' + j + ' clicked');
-          if (swap1 === -1) {
-            swap1 = j;
-            item.style.backgroundColor = '#cdcdff';
-          }
-          else if (swap2 === -1) {
-            swap2 = j;
-            item.style.backgroundColor = '#cdcdff';
-          }
-        });
       }
       arr.appendChild(item);
     }
@@ -276,35 +274,44 @@ function selectionSortStep() {
     label.innerHTML = 'Step ' + Number(i + 1) + ': ';
     vis.appendChild(label);
     vis.appendChild(arr);
-
-    // while (!proceed) {
-    //   console.log('reached');
-    //   if (swap1 != -1 && swap2 != -1) {
-    //     // swap(interactiveArr,swap1,swap2); 
-    //     // if (!equals(sortedArr,interactiveArr)) {
-    //     //   interactiveArr = sortedArr.copyWithin;
-    //     //   document.getElementById(swap1).style.backgroundColor = '#fff';
-    //     //   document.getElementById(swap2).style.backgroundColor = '#fff';
-    //     //   swap1 = -1;
-    //     //   swap2 = -1;
-    //     // } else {
-    //       proceed = true;
-    //     // }
-    //   }
-    //   setTimeout(100);
-    // }
-    setTimeout(() =>{console.log(i);},1000);
-    // Do this instead
-    // setTimeout(() => {
-    //   console.log("Hello World!");
-    // }, 5000);
-
   }
 }
 
+function insertionSort() {
+  for (let i = 0; i < visualLen; i++) {
+    sortedArr = unsortedArr.copyWithin();
+    let curr = sortedArr[i];
+    let index = i;
+
+    //  swap until you find the right index
+    for (let j = i - 1; j >= 0; j--) {
+      if (curr <= sortedArr[j]) {
+        sortedArr[index] = sortedArr[j]
+        sortedArr[j] = curr;
+        index--;
+      }
+    }
+  }
+  // updateSortedArray('Insertion');
+}
+
+
+// small helper functions
 function equals(arr1, arr2) {
   for (let i = 0; i < arr1.length; i++) {
     if (arr1[i] !== arr2[i]) return false;
   }
   return true;
+}
+
+function copyArray(array) {
+  let copy = [];
+  array.forEach((item) => copy.push(item));
+  return copy;
+}
+
+function swap(arr = sortedArr, i, j) {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
 }
