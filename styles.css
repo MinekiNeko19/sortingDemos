@@ -55,7 +55,7 @@ body {
 #visuals {
   display: grid;
   justify-content: center;
-  /* width: fit-content; */
+  width: 31em;
   padding: 2% 10% 2% 4%;
 }
 
