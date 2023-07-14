@@ -36,30 +36,40 @@ body {
 
 #content {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 #information {
   padding: 4em;
-  width: 60%;
+  width: auto;
+  /* min-width: min-content; */
+  /* max-width: max-content; */
+  font-size: x-large;
+}
+
+#bold {
+  font-weight: bold;
 }
 
 /* the sorting visuals and stuff */
 #visuals {
   display: grid;
   justify-content: center;
-  width: 40%;
+  /* width: fit-content; */
+  padding: 2% 10% 2% 4%;
 }
 
 #controls {
   display: inline-block;
+  width: max-content;
   justify-self: center;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
+
 #stepsArr {
   border-top: 3px solid #333;
-  max-height: 425px;
+  max-height: 375px;
+  width: fit-content;
   overflow-y: scroll;
 }
 
@@ -80,7 +90,7 @@ body {
   border-left: 1px solid black;
   border-right: 1px solid black;
   display: inline-flex;
-  margin: 10px 0;
+  margin: 0.5em 0;
 }
 
 button {
@@ -88,4 +98,5 @@ button {
   font-size: 18px;
   width: fit-content;
   font-family: monospace;
+  margin: 1em 0;
 }

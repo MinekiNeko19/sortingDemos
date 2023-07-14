@@ -67,7 +67,8 @@ function activeSort(type) {
 function doSort() {
   console.log(chosen);
   if (chosen === 'Selection') {
-    selectionSort();
+    sortedArr = copyArray(unsortedArr);
+    selectionSort(sortedArr);
   }
   else if (chosen === 'Insertion') {
     insertionSort();
@@ -93,19 +94,16 @@ function doSort() {
 // Worst Case TC: O(n^2)
 // different from bubble sort b/c bubble sort swaps automatically whereas selection sort will store the min and then swap
 // could be recoded to use the swap function
-function selectionSort() {
-  sortedArr = copyArray(unsortedArr);
-  // sortedArr = unsortedArr.copyWithin();
-
+function selectionSort(arr) {
   for (let i = 0; i < visualLen - 1; i++) {
     let min = Number.MAX_VALUE;
     let index = -1;
-    let temp = sortedArr[i];
+    let temp = arr[i];
 
     // find the smallest number in the unsorted frame
     for (let j = i; j < visualLen; j++) {
-      if (min > sortedArr[j]) {
-        min = sortedArr[j];
+      if (min > arr[j]) {
+        min = arr[j];
         index = j;
         // console.log(min);
       }
@@ -113,14 +111,14 @@ function selectionSort() {
 
     // swap i and j index values
     // console.log('swapping: ' + sortedArr[i] + ' and ' + sortedArr[index]);
-    if (sortedArr[index] !== undefined) {
-      sortedArr[i] = min;
-      sortedArr[index] = temp;
+    if (arr[index] !== undefined) {
+      arr[i] = min;
+      arr[index] = temp;
     }
   }
   // updateSortedArray('Selection');
-  console.log(unsortedArr);
-  console.log(sortedArr);
+  // console.log(unsortedArr);
+  // console.log(sortedArr);
 }
 
 
