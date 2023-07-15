@@ -78,7 +78,9 @@ function doSort() {
     quickSort(sortedArr, 0, visualLen - 1);
   }
   else if (chosen === 'Merge') {
-    mergeSortBottomUp(sortedArr);
+    // add if else later for top down bottom up options
+    // sortedArr = mergeSortBottomUp(sortedArr);
+    mergeSortTopDown(sortedArr);
     // document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
 
   }
@@ -181,25 +183,41 @@ function partition(arr = sortedArr, left, right) {
 function mergeSortBottomUp(arr) {
 
   let work = copyArray(arr);
-  const arrLen = arr.lenght;
+  const arrLen = arr.length;
 
   for (let width = 1; width < arrLen; width = width*2) {
 
     for (let i = 0; i < arrLen; i = i + (2*width)) {
-      const leftSubEnd = min(i+width, arrLen);
-      const rightSubEnd = min(i+(2*width), arrLen);
+      const leftSubEnd = Math.min(i+width, arrLen);
+      const rightSubEnd = Math.min(i+(2*width), arrLen);
 
       mergeSublists(arr, i, leftSubEnd, rightSubEnd, work);
     }
 
+    console.log("arr: " + arr);
+    console.log("work: " + work);
     arr = copyArray(work);
   }
+
+  return arr;
 }
 
-
 // uses recursion hence top down; uses the 
-function mergeSortTopDown() {
-  
+function mergeSortTopDown(arr) {
+  const work = copyArray(arr);
+  topDownSplitMerge(arr,0,arr.length,work);
+}
+
+function topDownSplitMerge(arr, begin, end, work) {
+  if (end - begin > 1) {
+    const middle = Math.floor((begin+end)/2);
+
+    topDownSplitMerge(arr, begin, middle, work);
+    topDownSplitMerge(arr, middle, end, work);
+
+    mergeSublists(arr, begin, middle, end, work);
+    arr = copyArray(work);
+  }
 }
 
 // merge sort helper function
@@ -209,8 +227,9 @@ function mergeSublists(arr, left, right, end, work) {
 
   for (let k = left; k < end; k++) {
     // copy next element from left sublist into work array
-    if ( ((i < right) && (j >= end)) || (arr[i] <= arr[j]) ) {
+    if ( (i < right) && ((j >= end) || (arr[i] <= arr[j])) ) {
       work[k] = arr[i];
+      i++;
     }
     // copy next element from right sublist into work array
     else {
