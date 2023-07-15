@@ -67,26 +67,27 @@ function activeSort(type) {
 
 function doSort() {
   console.log(chosen);
+  sortedArr = copyArray(unsortedArr);
   if (chosen === 'Selection') {
-    sortedArr = copyArray(unsortedArr);
     selectionSort(sortedArr);
   }
   else if (chosen === 'Insertion') {
-    insertionSort();
+    insertionSort(sortedArr);
   }
   else if (chosen === 'Quick') {
-    sortedArr = unsortedArr.copyWithin();
     quickSort(sortedArr, 0, visualLen - 1);
   }
   else if (chosen === 'Merge') {
-    document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
+    mergeSortBottomUp(sortedArr);
+    // document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
 
   }
   else if (chosen === 'Heap') {
     document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
   }
   updateSortedArray(chosen);
-  // console.log(sortedArr);
+  console.log(unsortedArr); 
+  console.log(sortedArr);
 }
 
 // // sorting algorithms
@@ -126,32 +127,29 @@ function selectionSort(arr) {
 // Best Case TC: O(n)
 // Worst Case TC: O(n^2)
 // could be recoded to use the helper swap function
-function insertionSort() {
-  console.log(unsortedArr);
-  console.log(sortedArr);
-  for (let i = 0; i < visualLen; i++) {
-    sortedArr = unsortedArr.copyWithin();
-    let curr = sortedArr[i];
+function insertionSort(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    let curr = arr[i];
     let index = i;
 
     //  swap until you find the right index
     for (let j = i - 1; j >= 0; j--) {
-      if (curr <= sortedArr[j]) {
-        sortedArr[index] = sortedArr[j]
-        sortedArr[j] = curr;
+      if (curr <= arr[j]) {
+        arr[index] = arr[j]
+        arr[j] = curr;
         index--;
       }
     }
   }
-  console.log(unsortedArr);
-  console.log(sortedArr);
+  // console.log(unsortedArr);
+  // console.log(sortedArr);
   // updateSortedArray('Insertion');
 }
 
 // the pivot ultimately doesn't matter since it will be inserted at the right place anyway
 // everything will be a pivot at some level regardless
 // coded with help from geeksforgeeks https://www.geeksforgeeks.org/quick-sort/#
-function quickSort(arr = sortedArr, left, right) {
+function quickSort(arr, left, right) {
   if (left < right) {
     const piv = partition(arr, left, right);
 
@@ -180,7 +178,23 @@ function partition(arr = sortedArr, left, right) {
 }
 
 // no recursion
-function mergeSortBottomUp() {}
+function mergeSortBottomUp(arr) {
+
+  let work = copyArray(arr);
+  const arrLen = arr.lenght;
+
+  for (let width = 1; width < arrLen; width = width*2) {
+
+    for (let i = 0; i < arrLen; i = i + (2*width)) {
+      const leftSubEnd = min(i+width, arrLen);
+      const rightSubEnd = min(i+(2*width), arrLen);
+
+      mergeSublists(arr, i, leftSubEnd, rightSubEnd, work);
+    }
+
+    arr = copyArray(work);
+  }
+}
 
 
 // uses recursion hence top down; uses the 
@@ -291,25 +305,6 @@ function selectionSortStep() {
     vis.appendChild(arr);
   }
 }
-
-function insertionSort() {
-  for (let i = 0; i < visualLen; i++) {
-    sortedArr = unsortedArr.copyWithin();
-    let curr = sortedArr[i];
-    let index = i;
-
-    //  swap until you find the right index
-    for (let j = i - 1; j >= 0; j--) {
-      if (curr <= sortedArr[j]) {
-        sortedArr[index] = sortedArr[j]
-        sortedArr[j] = curr;
-        index--;
-      }
-    }
-  }
-  // updateSortedArray('Insertion');
-}
-
 
 // small helper functions
 function equals(arr1, arr2) {
