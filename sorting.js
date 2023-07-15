@@ -1,6 +1,7 @@
 let unsortedArr = [];
 let sortedArr = [];
 let stepsArr = [];
+let workArr = [];
 let visualLen = 10;
 let chosen = 'Selection';
 
@@ -181,13 +182,29 @@ function partition(arr = sortedArr, left, right) {
 // no recursion
 function mergeSortBottomUp() {}
 
-// uses recursion hence top down; also implements the bottom up merge sort
-function mergeSortTopDown(arr=sortedArr, left, right, copyArr = arr.copyWithin()) {
+
+// uses recursion hence top down; uses the 
+function mergeSortTopDown() {
   
 }
 
+// merge sort helper function
+function mergeSublists(arr, left, right, end, work) {
+  let i = left;
+  let j = right;
 
-
+  for (let k = left; k < end; k++) {
+    // copy next element from left sublist into work array
+    if ( ((i < right) && (j >= end)) || (arr[i] <= arr[j]) ) {
+      work[k] = arr[i];
+    }
+    // copy next element from right sublist into work array
+    else {
+      work[k] = arr[j];
+      j++;
+    }
+  }
+}
 
 
 
