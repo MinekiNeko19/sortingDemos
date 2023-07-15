@@ -80,7 +80,7 @@ function doSort() {
   else if (chosen === 'Merge') {
     // add if else later for top down bottom up options
     // sortedArr = mergeSortBottomUp(sortedArr);
-    mergeSortTopDown(sortedArr);
+    sortedArr = mergeSortTopDown(sortedArr);
     // document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
 
   }
@@ -204,8 +204,11 @@ function mergeSortBottomUp(arr) {
 
 // uses recursion hence top down; uses the 
 function mergeSortTopDown(arr) {
-  const work = copyArray(arr);
+  let work = copyArray(arr);
   topDownSplitMerge(arr,0,arr.length,work);
+  arr = copyArray(work);
+  // console.log(work);
+  return arr;
 }
 
 function topDownSplitMerge(arr, begin, end, work) {
@@ -213,11 +216,14 @@ function topDownSplitMerge(arr, begin, end, work) {
     const middle = Math.floor((begin+end)/2);
 
     topDownSplitMerge(arr, begin, middle, work);
+    arr = copyArray(work);
     topDownSplitMerge(arr, middle, end, work);
+    arr = copyArray(work);
 
     mergeSublists(arr, begin, middle, end, work);
-    arr = copyArray(work);
   }
+
+  arr = copyArray(work);
 }
 
 // merge sort helper function
@@ -237,6 +243,9 @@ function mergeSublists(arr, left, right, end, work) {
       j++;
     }
   }
+
+  // console.log("arr: " + arr);
+  console.log("work: " + work);
 }
 
 
