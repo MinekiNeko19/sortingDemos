@@ -43,21 +43,21 @@ body {
 #information {
   padding: 4em;
   width: auto;
-  /* min-width: min-content; */
-  /* max-width: max-content; */
-  /* font-size: 20px; */
 }
 
-#bold {
+.bold {
   font-weight: bold;
+}
+.complexity {
+  font-style: italic;
 }
 
 /* the sorting visuals and stuff */
 #visuals {
   display: grid;
   justify-content: center;
-  width: 31em;
-  padding: 2% 10% 2% 4%;
+  width: fit-content;
+  margin: 2% 10% 2% 4%;
 }
 
 #controls {
@@ -71,7 +71,7 @@ body {
   border-top: 3px solid #333;
   max-height: 375px;
   width: fit-content;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .item {
@@ -100,4 +100,22 @@ button {
   width: fit-content;
   font-family: monospace;
   margin: 1em 0;
+}
+
+li{
+  margin-bottom: 1em;
+}
+
+.code {
+  border-radius: 0.15em;
+  border: 1px solid black;
+  padding: 0 0.25em;
+  background-color: #ccc;
+}
+
+/* from https://teamtreehouse.com/community/showhide-elements-depending-on-screen-size */
+@media screen and (max-width: 768px) {
+  #content  { display: grid; justify-content: center;}
+  #visuals { padding: 0; align-self: center; justify-self: center;}
+  #stepsArr {max-height: none; overflow-y: auto;}
 }

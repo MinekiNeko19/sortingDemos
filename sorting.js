@@ -1,7 +1,7 @@
 let unsortedArr = [];
 let sortedArr = [];
 let stepsArr = [];
-let workArr = [];
+// let workArr = [];
 let visualLen = 10;
 let chosen = 'Selection';
 
