@@ -79,13 +79,14 @@ function doSort() {
   }
   else if (chosen === 'Merge') {
     // add if else later for top down bottom up options
-    // sortedArr = mergeSortBottomUp(sortedArr);
-    sortedArr = mergeSortTopDown(sortedArr);
+    sortedArr = mergeSortBottomUp(sortedArr);
+    // sortedArr = mergeSortTopDown(sortedArr);
     // document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
 
   }
   else if (chosen === 'Heap') {
-    document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
+    heapSort(sortedArr);
+    // document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
   }
   updateSortedArray(chosen);
   console.log(unsortedArr); 
@@ -248,7 +249,48 @@ function mergeSublists(arr, left, right, end, work) {
   console.log("work: " + work);
 }
 
+// with guidance from https://www.geeksforgeeks.org/heap-sort/#
+function heapSort(arr) {
+  const n = arr.length;
 
+  // build the heap
+  for (let i = Math.floor(n/2+1); i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+
+  // extract the root, which is always the largest
+  // iterate backwards b/c we are building the heap starting from the back of the array
+  for (let i = n-1; i >= 0; i--) {
+    swap(arr, 0, i);
+    // calls heap on the reduced heap
+    heapify(arr, i, 0)
+  }
+}
+// helper function is recursive
+function heapify(arr, n, i) {
+  let root = i;
+  let left = 2*i + 1;
+  let right = 2*i + 2;
+
+  // if left child > root
+  if (right < n && arr[left] > arr[root]) {
+    root = left;
+  }
+  
+  // if left child > root
+  if (right < n && arr[right] > arr[root]) {
+    root = right;
+  }
+  
+  // swap and make the root the largest if it isn't
+  if (root != i) {
+    swap(arr,i,root);
+
+    // recursively make the subheaps of the altered heap
+    heapify(arr, n, root);
+  }
+
+}
 
 
 

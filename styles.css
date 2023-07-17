@@ -22,6 +22,7 @@ body {
 
 .sortType:hover {
   background-color: #aaa;
+  color: black;
 }
 
 .selectedType {
