@@ -102,6 +102,9 @@ button {
   font-family: monospace;
   margin: 1em 0;
 }
+button:active {
+  background-color: #aaa;
+}
 
 li{
   margin-bottom: 1em;

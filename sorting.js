@@ -458,6 +458,9 @@ function selectionSortSteps() {
 
   const vis = document.getElementById('stepsArr');
   vis.innerHTML = '';
+  const sortStep = document.createElement('h3');
+  sortStep.innerHTML = 'Selection Sort Steps';
+  vis.appendChild(sortStep);
 
   for (let i = 0; i < visualLen - 1; i++) {
     let min = Number.MAX_VALUE;
@@ -476,6 +479,7 @@ function selectionSortSteps() {
       stepsArr[index] = temp;
     }
 
+    // visualizations
     const arr = document.createElement('div');
     arr.className = 'array';
 
@@ -504,6 +508,9 @@ function insertionSortSteps() {
 
   const vis = document.getElementById('stepsArr');
   vis.innerHTML = '';
+  const sortStep = document.createElement('h3');
+  sortStep.innerHTML = 'Insertion Sort Steps';
+  vis.appendChild(sortStep);
 
   for (let i = 0; i < arr.length; i++) {
     let curr = arr[i];
