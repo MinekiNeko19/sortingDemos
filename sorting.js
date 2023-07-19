@@ -470,9 +470,15 @@ function stepSort() {
     // stepsDiv.innerHTML = "Insertion Sort Steps not implemented yet";
   }
   else if (chosen === 'Quick') {
-    // sortedArr = unsortedArr.copyWithin();
-    // quickSort(sortedArr, 0, visualLen-1);
-    stepsDiv.innerHTML = "Quick Sort Steps not implemented yet";
+    stepsArr = copyArray(unsortedArr);
+    const vis = document.getElementById('stepsArr');
+    vis.innerHTML = '';
+    const sortStep = document.createElement('h3');
+    sortStep.innerHTML = 'Quick Sort Steps';
+    vis.appendChild(sortStep);
+
+    quickSortSteps(stepsArr, 0, visualLen - 1);
+    // stepsDiv.innerHTML = "Quick Sort Steps not implemented yet";
   }
   else if (chosen === 'Merge') {
     stepsDiv.innerHTML = "Merge Sort Steps not implemented yet";
@@ -588,28 +594,71 @@ function insertionSortSteps() {
   }
 }
 
+let quickSteps = 0.5;
+function quickSortSteps(arr, left, right) {
+  const vis = document.getElementById('stepsArr');
 
-// small helper functions
-function equals(arr1, arr2) {
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) return false;
+  if (left < right) {
+    const piv = partition(arr, left, right);
+
+    // the pivot is already in the right place
+    quickSortSteps(arr, left, piv - 1);
+
+    const arrDiv = document.createElement('div');
+    arrDiv.className = 'array';
+
+    for (let j = 0; j < arr.length; j++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.setAttribute('id', j);
+      item.innerHTML = arr[j];
+      if (j == piv) {
+        item.style.backgroundColor = '#ffff44';
+      }
+      if (j < piv && j >= left ) {
+        item.style.backgroundColor = '#ffdddd';
+      }
+      if (j <= right && j >= left) {
+        item.style.fontWeight = 'bold';
+      }
+      arrDiv.appendChild(item);
+    }
+    const label = document.createElement('p');
+    label.innerHTML = 'Step ' + Number(quickSteps) + ': ';
+    vis.appendChild(label);
+    vis.appendChild(arrDiv);
+
+    quickSteps += 0.5;
+
+    quickSortSteps(arr, piv + 1, right)
+
+    const arrDiv2 = document.createElement('div');
+    arrDiv2.className = 'array';
+
+    for (let j = 0; j < arr.length; j++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.setAttribute('id', j);
+      item.innerHTML = arr[j];
+      if (j == piv) {
+        item.style.backgroundColor = '#ffff44';
+      }
+      if (j > piv && j <= right ) {
+        item.style.backgroundColor = '#ddddff';
+      }
+      if (j >= left && j <= right) {
+        item.style.fontWeight = 'bold';
+      }
+      arrDiv2.appendChild(item);
+    }
+    const label2 = document.createElement('p');
+    label2.innerHTML = 'Step ' + Number(quickSteps) + ': ';
+    vis.appendChild(label2);
+    vis.appendChild(arrDiv2);
+
+    quickSteps += 0.5;
   }
-  return true;
 }
-
-function copyArray(array) {
-  let copy = [];
-  array.forEach((item) => copy.push(item));
-  return copy;
-}
-
-function swap(arr = sortedArr, i, j) {
-  const temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
-}
-
-
 
 function heapSortSteps() {
   const arr = copyArray(unsortedArr);
@@ -659,11 +708,11 @@ function heapSortSteps() {
       item.setAttribute('id', j);
       item.innerHTML = arr[j];
       if (j == 0) {
-        item.style.backgroundColor = '#ccccff';
+        item.style.fontWeight = 'bold';
       }
       if (j > i) {
         item.style.backgroundColor = '#ddd';
-      } 
+      }
       if (j == i) {
         item.style.backgroundColor = '#ffff44';
       }
@@ -676,4 +725,18 @@ function heapSortSteps() {
 
     k++;
   }
+}
+
+
+// small helper functions
+function copyArray(array) {
+  let copy = [];
+  array.forEach((item) => copy.push(item));
+  return copy;
+}
+
+function swap(arr = sortedArr, i, j) {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
 }
