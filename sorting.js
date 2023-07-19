@@ -312,7 +312,7 @@ function activeSort(type) {
 }
 
 function doSort() {
-  console.log(chosen);
+  // console.log(chosen);
   sortedArr = copyArray(unsortedArr);
   if (chosen === 'Selection') {
     selectionSort(sortedArr);
@@ -329,9 +329,6 @@ function doSort() {
     } else {
       sortedArr = mergeSortTopDown(sortedArr);
     }
-
-    // add if else later for top down bottom up options
-    // sortedArr = mergeSortTopDown(sortedArr);
     // document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
 
   }
@@ -340,8 +337,8 @@ function doSort() {
     // document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
   }
   updateSortedArray(chosen);
-  console.log(unsortedArr);
-  console.log(sortedArr);
+  // console.log(unsortedArr);
+  // console.log(sortedArr);
 }
 
 // // sorting algorithms
@@ -497,7 +494,7 @@ function mergeSublists(arr, left, right, end, work) {
   }
 
   // console.log("arr: " + arr);
-  console.log("work: " + work);
+  // console.log("work: " + work);
 }
 
 // with guidance from https://www.geeksforgeeks.org/heap-sort/#
@@ -556,7 +553,7 @@ function stepSort() {
   let stepsDiv = document.getElementById('stepsArr');
   stepsDiv.innerHTML = '';
 
-  console.log(chosen);
+  // console.log(chosen);
   if (chosen === 'Selection') {
     selectionSortSteps();
     // document.getElementById('sortedArr').innerHTML = "Selection Sort Steps not implemented yet";
@@ -579,7 +576,15 @@ function stepSort() {
     // stepsDiv.innerHTML = "Quick Sort Steps not implemented yet";
   }
   else if (chosen === 'Merge') {
-    stepsDiv.innerHTML = "Merge Sort Steps not implemented yet";
+    mergeSteps = 1;
+    stepsArr = copyArray(unsortedArr);
+    if (mergeBottomUp) {
+      stepsArr = mergeSortBottomUpSteps(stepsArr);
+    } else {
+      // sortedArr = mergeSortTopDown(sortedArr);
+      stepsDiv.innerHTML = "Merge Sort (Top Down) Steps not implemented yet";
+    }
+    // stepsDiv.innerHTML = "Merge Sort Steps not implemented yet";
   }
   else if (chosen === 'Heap') {
     heapSortSteps();
@@ -757,6 +762,62 @@ function quickSortSteps(arr, left, right) {
     quickSteps += 0.5;
   }
 }
+
+let mergeSteps = 1;
+function mergeSortBottomUpSteps(arr) {
+  const vis = document.getElementById('stepsArr')
+  vis.innerHTML = '';
+  const sortStep = document.createElement('h3');
+  sortStep.innerHTML = 'Merge Sort (Bottom Up) Steps';
+  vis.appendChild(sortStep);
+
+
+  let work = copyArray(arr);
+  const arrLen = arr.length;
+
+  for (let width = 1; width < arrLen; width = width * 2) {
+
+    for (let i = 0; i < arrLen; i = i + (2 * width)) {
+      const leftSubEnd = Math.min(i + width, arrLen);
+      const rightSubEnd = Math.min(i + (2 * width), arrLen);
+
+      mergeSublists(arr, i, leftSubEnd, rightSubEnd, work);
+      
+      arr = copyArray(work);
+
+      const arrDiv = document.createElement('div');
+      arrDiv.className = 'array';
+
+      for (let j = 0; j < arr.length; j++) {
+        const item = document.createElement('div');
+        item.className = 'item';
+        item.setAttribute('id', j);
+        item.innerHTML = arr[j];
+        if (j >= i && j < rightSubEnd) {
+          item.style.backgroundColor = '#ddd';
+        }
+        if (j == leftSubEnd-1) {
+          item.style.backgroundColor = '#ffdddd';
+        }
+        if (j == rightSubEnd-1) {
+          item.style.backgroundColor = '#ddddff';
+        }
+        arrDiv.appendChild(item);
+      }
+      const label = document.createElement('p');
+      label.innerHTML = 'Step ' + Number(mergeSteps) + ': ';
+      vis.appendChild(label);
+      vis.appendChild(arrDiv);
+      mergeSteps++;
+    }
+    // arr = copyArray(work);
+  }
+
+  return arr;
+}
+
+
+
 
 function heapSortSteps() {
   const arr = copyArray(unsortedArr);
