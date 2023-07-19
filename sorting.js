@@ -484,8 +484,11 @@ function selectionSortSteps() {
       item.className = 'item';
       item.setAttribute('id', j);
       item.innerHTML = stepsArr[j];
-      if (j <= i) {
+      if (j < i) {
         item.style.backgroundColor = '#ddd';
+      }
+      if (j == i) {
+        item.style.backgroundColor = '#ffff44';
       }
       arr.appendChild(item);
     }
@@ -496,10 +499,16 @@ function selectionSortSteps() {
   }
 }
 
-function insertionSortSteps(arr) {
+function insertionSortSteps() {
+  let arr = copyArray(unsortedArr);
+
+  const vis = document.getElementById('stepsArr');
+  vis.innerHTML = '';
+
   for (let i = 0; i < arr.length; i++) {
     let curr = arr[i];
     let index = i;
+    let element = i;
 
     //  swap until you find the right index
     for (let j = i - 1; j >= 0; j--) {
@@ -507,12 +516,34 @@ function insertionSortSteps(arr) {
         arr[index] = arr[j]
         arr[j] = curr;
         index--;
+      } else {
+        element = j;
+        j = -1;
       }
     }
+
+    // visualization
+    const arrDiv = document.createElement('div');
+    arrDiv.className = 'array';
+
+    for (let j = 0; j < arr.length; j++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.setAttribute('id', j);
+      item.innerHTML = arr[j];
+      if (j <= i) {
+        item.style.backgroundColor = '#ddd';
+      } 
+      if (j == element) {
+        item.style.backgroundColor = '#ffff44';
+      }
+      arrDiv.appendChild(item);
+    }
+    const label = document.createElement('p');
+    label.innerHTML = 'Step ' + Number(i + 1) + ': ';
+    vis.appendChild(label);
+    vis.appendChild(arrDiv);
   }
-  // console.log(unsortedArr);
-  // console.log(sortedArr);
-  // updateSortedArray('Insertion');
 }
 
 
