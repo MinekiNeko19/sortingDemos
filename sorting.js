@@ -59,10 +59,131 @@ function activeSort(type) {
   console.log(nav);
   for (let i = 0; i < nav.length; i++) {
     // replace doesn't affect the original string
-    nav[i].className = nav[i].className.replace('selectedType','sortType');
+    nav[i].className = nav[i].className.replace('selectedType', 'sortType');
   }
   const selected = document.getElementById(type);
   selected.className = 'selectedType';
+
+  const sort = document.getElementById('sort');
+  const method = document.getElementById('method');
+  const tc = document.getElementById('tc');
+  const sc = document.getElementById('sc');
+  if (chosen === 'Selection') {
+    sort.innerHTML = 'Selection Sort';
+    tc.innerHTML = 'O(n<sup>2</sup>)';
+    sc.innerHTML = 'O(n)';
+    method.innerHTML = `
+        <p>
+          Selection sort is an improved version of bubble sort.
+          Iterate through the array, record the smallest value, and move the smallest value to the front.
+        </p>
+        <p>
+          For each step of the iteration, consider <span class="code">i</span> to be the current element of an array of
+          length <span class="code">n</span>.
+        <ol>
+          <li>Linearly search through the elements between <span class="code">i</span> and <span class="code">n</span>
+            and record the index <span class="code">k</span> of the next smallest element.</li>
+          <li>Swap the <span class="code">i</span>th element and <span class="code">k</span>th elements.</li>
+          <li>Increment <span class="code">i</span> and repeat for each index of the array.</li>
+          <ul>
+            <li>The last element <span class="code">n-1</span> doesn't have to be searched for, as it would be properly
+              placed by the previous swap.</li>
+            <ul>
+        </ol>
+      </p>
+    `
+  }
+  else if (chosen === 'Insertion') {
+    sort.innerHTML = 'Insertion Sort';
+    tc.innerHTML = 'O(n<sup>2</sup>)';
+    sc.innerHTML = 'O(n)';
+    method.innerHTML = `
+    <p>
+      Insertion sort is on average faster than selection sort, but is slower when inserting an element at the front. <br>
+      Take the next unsorted element, iterate through the already sorted elements, insert it in the correct place, and shift the elements accordingly.
+    </p>
+    <p>
+      For the following, consider <span class="code">i</span> to be the current element of an array of
+      length <span class="code">n</span>.
+    <ol>
+      <li>
+        Record the value of the <span class="code">i</span>th element.
+      </li>
+      <li>
+        Iterate <span class="code">j</span> from the <span class="code">i</span>th index to the element at index <span class="code">1</span>.
+      </li>
+      <ul>
+        <li>
+          While iterating, swap the <span class="code">j</span>th element with the <span class="code">j-1</span>th element
+          if the <span class="code">j</span>th element is less than the <span class="code">j-1</span> element
+        </li>
+        <li>This shifts the greater elements into place, while locating the correct location of the current element.</li>
+      </ul>
+      <li>Increment <span class="code">i</span> and repeat until <span class="code">i==n</span></li>
+    </ol>
+    </p>
+    `
+
+  }
+  else if (chosen === 'Quick') {
+    sort.innerHTML = 'Quick Sort';
+    tc.innerHTML = 'O(nlog(n))';
+    sc.innerHTML = 'O(n)';
+    method.innerHTML = `
+    <p>
+      Quick sort sorts recursively and using a pivot as a reference.
+      Select any element as a pivot, place elements less than the pivot on the left and greater than the pivot on the right, 
+      place the pivot in its correct spot, then recursively do the same for the left and right of the pivot.
+      <ul>
+        <li>Although any element can be used a pivot, it is more consistent to pick either the first or last element.</li>
+      </ul>
+    </p>
+    <p>
+      For this quicksort function, the passed parameters are the array we are sorting <span class="code">arr</span>, 
+      the left bounding index <span class="code">left</span>, and the right bounding index <span class="code">right</span>.
+    <ol>
+      <li>Call the helper function <span class="code">partition</span> to partition the elements and obtain <span class="code">pivotInd</span> the index of the sorted pivot.</li>
+        <ol>
+          <li>Because the last element of the array is the pivot, iterate from the <span class="code">left</span> bounding index to the <span class="code">right-1</span> bounding index.</li>
+          <ul>
+            <li>
+              Elements greater than <span class="code">pivot</span> remain in place. 
+              Elements less than <span class="code">pivot</span> are swapped to the left, kept track of using <span class="code">j</span>, which increments by 1 every time we swap an element.
+            </li>
+            <li>This swaps elements less than <span class="code">pivot</span>to the left of <span class="code">j</span>.</li>
+          </ul>
+          <li>Swap the elements at <span class="code">j</span> and <span class="code">right</span>. This puts the pivot value at its correct index.</li>
+            <ul><li>We can swap these elements because it is guaranteed that the element at <span class="code">j</span> is greater than <span class="code">pivot</span></li></ul>
+          <li>Return <span class="code">j</span>, the index of the pivot. It is <span class="code">pivotInd</span></li>
+        </ol>
+      <li>
+        Call quicksort on the left unsorted subarray, passing the <span class="code">arr</span>, <span class="code">left</span>, and <span class="code">pivotInd-1</span> 
+        as the <span class="code">arr</span>, <span class="code">left</span>, and <span class="code">right</span> parameters respectively.
+      </li>
+      <li>
+        Call quicksort on the right unsorted subarray, passing the <span class="code">arr</span>, <span class="code">pivotInd+1</span>, and <span class="code">right</span> 
+        as the <span class="code">arr</span>, <span class="code">left</span>, and <span class="code">right</span> parameters respectively.
+      </li>
+      <ul>
+        <li><span class="code">pivot</span> has been sorted into its correct index so it is not an inclusive bounding index.</li>
+      </ul>
+    </ol>
+  </p>
+`
+
+  }
+  else if (chosen === 'Merge') {
+    sort.innerHTML = 'Merge Sort';
+    tc.innerHTML = 'O(nlog(n))';
+    sc.innerHTML = 'O(n)';
+    method.innerHTML = `Explanation not written yet.`
+  }
+  else if (chosen === 'Heap') {
+    sort.innerHTML = 'Heap Sort';
+    tc.innerHTML = 'O(nlog(n))';
+    sc.innerHTML = 'O(n)';
+    method.innerHTML = `Explanation not written yet.`
+  }
 }
 
 function doSort() {
@@ -89,7 +210,7 @@ function doSort() {
     // document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
   }
   updateSortedArray(chosen);
-  console.log(unsortedArr); 
+  console.log(unsortedArr);
   console.log(sortedArr);
 }
 
@@ -186,11 +307,11 @@ function mergeSortBottomUp(arr) {
   let work = copyArray(arr);
   const arrLen = arr.length;
 
-  for (let width = 1; width < arrLen; width = width*2) {
+  for (let width = 1; width < arrLen; width = width * 2) {
 
-    for (let i = 0; i < arrLen; i = i + (2*width)) {
-      const leftSubEnd = Math.min(i+width, arrLen);
-      const rightSubEnd = Math.min(i+(2*width), arrLen);
+    for (let i = 0; i < arrLen; i = i + (2 * width)) {
+      const leftSubEnd = Math.min(i + width, arrLen);
+      const rightSubEnd = Math.min(i + (2 * width), arrLen);
 
       mergeSublists(arr, i, leftSubEnd, rightSubEnd, work);
     }
@@ -206,7 +327,7 @@ function mergeSortBottomUp(arr) {
 // uses recursion hence top down; uses the 
 function mergeSortTopDown(arr) {
   let work = copyArray(arr);
-  topDownSplitMerge(arr,0,arr.length,work);
+  topDownSplitMerge(arr, 0, arr.length, work);
   arr = copyArray(work);
   // console.log(work);
   return arr;
@@ -214,7 +335,7 @@ function mergeSortTopDown(arr) {
 
 function topDownSplitMerge(arr, begin, end, work) {
   if (end - begin > 1) {
-    const middle = Math.floor((begin+end)/2);
+    const middle = Math.floor((begin + end) / 2);
 
     topDownSplitMerge(arr, begin, middle, work);
     arr = copyArray(work);
@@ -234,7 +355,7 @@ function mergeSublists(arr, left, right, end, work) {
 
   for (let k = left; k < end; k++) {
     // copy next element from left sublist into work array
-    if ( (i < right) && ((j >= end) || (arr[i] <= arr[j])) ) {
+    if ((i < right) && ((j >= end) || (arr[i] <= arr[j]))) {
       work[k] = arr[i];
       i++;
     }
@@ -254,13 +375,13 @@ function heapSort(arr) {
   const n = arr.length;
 
   // build the heap
-  for (let i = Math.floor(n/2+1); i >= 0; i--) {
+  for (let i = Math.floor(n / 2 + 1); i >= 0; i--) {
     heapify(arr, n, i);
   }
 
   // extract the root, which is always the largest
   // iterate backwards b/c we are building the heap starting from the back of the array
-  for (let i = n-1; i >= 0; i--) {
+  for (let i = n - 1; i >= 0; i--) {
     swap(arr, 0, i);
     // calls heap on the reduced heap
     heapify(arr, i, 0)
@@ -269,22 +390,22 @@ function heapSort(arr) {
 // helper function is recursive
 function heapify(arr, n, i) {
   let root = i;
-  let left = 2*i + 1;
-  let right = 2*i + 2;
+  let left = 2 * i + 1;
+  let right = 2 * i + 2;
 
   // if left child > root
   if (right < n && arr[left] > arr[root]) {
     root = left;
   }
-  
+
   // if left child > root
   if (right < n && arr[right] > arr[root]) {
     root = right;
   }
-  
+
   // swap and make the root the largest if it isn't
   if (root != i) {
-    swap(arr,i,root);
+    swap(arr, i, root);
 
     // recursively make the subheaps of the altered heap
     heapify(arr, n, root);
@@ -307,12 +428,12 @@ function stepSort() {
 
   console.log(chosen);
   if (chosen === 'Selection') {
-    selectionSortStep();
+    selectionSortSteps();
     // document.getElementById('sortedArr').innerHTML = "Selection Sort Steps not implemented yet";
   }
   else if (chosen === 'Insertion') {
-    // insertionSort();
-    stepsDiv.innerHTML = "Insertion Sort Steps not implemented yet";
+    insertionSortSteps();
+    // stepsDiv.innerHTML = "Insertion Sort Steps not implemented yet";
   }
   else if (chosen === 'Quick') {
     // sortedArr = unsortedArr.copyWithin();
@@ -329,12 +450,12 @@ function stepSort() {
   // console.log(sortedArr);
 }
 
-function selectionSortStep() {
+function selectionSortSteps() {
   // stepsArr = unsortedArr.copyWithin();
   // console.log(unsortedArr);
   // console.log(sortedArr);
   stepsArr = copyArray(unsortedArr);
-  
+
   const vis = document.getElementById('stepsArr');
   vis.innerHTML = '';
 
@@ -355,7 +476,6 @@ function selectionSortStep() {
       stepsArr[index] = temp;
     }
 
-    // the interactive part // removing b/c the vision has changed
     const arr = document.createElement('div');
     arr.className = 'array';
 
@@ -375,6 +495,26 @@ function selectionSortStep() {
     vis.appendChild(arr);
   }
 }
+
+function insertionSortSteps(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    let curr = arr[i];
+    let index = i;
+
+    //  swap until you find the right index
+    for (let j = i - 1; j >= 0; j--) {
+      if (curr <= arr[j]) {
+        arr[index] = arr[j]
+        arr[j] = curr;
+        index--;
+      }
+    }
+  }
+  // console.log(unsortedArr);
+  // console.log(sortedArr);
+  // updateSortedArray('Insertion');
+}
+
 
 // small helper functions
 function equals(arr1, arr2) {

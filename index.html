@@ -27,29 +27,37 @@
         <br>
         <span class="bold">Space Complexity: </span><span class="complexity" id="sc">O(n)</span>
       </p>
-      <p id="method">Selection sort is an improved version of bubble sort. 
-        Iterate through the array, record the smallest value, and move the smallest value to the front.
-      </p>
-      <p>
-        For each step of the iteration, consider <span class="code">i</span> to be the current element of an array of length <span class="code">n</span>.
+      <div id="method">
+        <p>
+          Selection sort is an improved version of bubble sort.
+          Iterate through the array, record the smallest value, and move the smallest value to the front.
+        </p>
+        <p>
+          For each step of the iteration, consider <span class="code">i</span> to be the current element of an array of
+          length <span class="code">n</span>.
         <ol>
-          <li>Linearly search through the elements between <span class="code">i</span> and <span class="code">n</span> and record the index <span class="code">k</span> of the next smallest element.</li>
+          <li>Linearly search through the elements between <span class="code">i</span> and <span class="code">n</span>
+            and record the index <span class="code">k</span> of the next smallest element.</li>
           <li>Swap the <span class="code">i</span>th element and <span class="code">k</span>th elements.</li>
           <li>Increment <span class="code">i</span> and repeat for each index of the array.</li>
-              <ul><li>The last element <span class="code">n-1</span> doesn't have to be searched for, as it would be properly placed by the previous swap.</li><ul>
+          <ul>
+            <li>The last element <span class="code">n-1</span> doesn't have to be searched for, as it would be properly
+              placed by the previous swap.</li>
+            <ul>
         </ol>
-      </p>
+        </p>
+      </div>
     </div>
 
     <div id="visuals">
-      <div class="lists" id="originalArr"></div>
-      <div class="lists" id="sortedArr"></div>
-      <div class="lists" id="stepsArr"></div>
       <div id="controls">
         <button type="button" id="generateArr" onclick="randomizeArray()">Generate</button>
         <button type="button" id="sortButton" onclick="doSort()">Sort</button>
         <button type="button" id="stepSortButton" onclick="stepSort()">Steps</button>
       </div>
+      <div class="lists" id="originalArr"></div>
+      <div class="lists" id="sortedArr"></div>
+      <div class="lists" id="stepsArr"></div>
     </div>
   </div>
 </body>

@@ -57,6 +57,7 @@ body {
   display: grid;
   justify-content: center;
   width: fit-content;
+  height: fit-content;
   margin: 2% 10% 2% 4%;
 }
 
@@ -107,8 +108,8 @@ li{
 }
 
 .code {
-  border-radius: 0.15em;
-  border: 1px solid black;
+  border-radius: 0.2em;
+  border: 1px solid #777;
   padding: 0 0.25em;
   background-color: #ccc;
 }
