@@ -129,3 +129,7 @@ h3 {
   top: 0px;
   background-color: white;
 }
+
+#mergeType {
+  display:none;
+}

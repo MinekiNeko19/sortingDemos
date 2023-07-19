@@ -4,6 +4,7 @@ let stepsArr = [];
 // let workArr = [];
 let visualLen = 10;
 let chosen = 'Selection';
+let mergeBottomUp = true;
 
 function randomizeArray(len = visualLen, min = -500, max = 500) {
   // will only fill array with ints from [-min,max]
@@ -46,11 +47,30 @@ function updateSortedArray(sort) {
     sortedArr.forEach((item) => randArr += ('<div class="item">' + item + '</div>'));
 
     // document.getElementById('sortedArr').innerHTML = 'Sorted Using ' + sort + ' Sort: [' + sortedArr.toString() + ']';
-    document.getElementById('sortedArr').innerHTML = '<p>Sorted Using ' + sort + ' Sort: </p>' + randArr;
+    if (sort === 'Merge') {
+      if (mergeBottomUp) {
+        document.getElementById('sortedArr').innerHTML = '<p>Sorted Using ' + sort + ' (Bottom Up) Sort: </p>' + randArr;
+      } else {
+        document.getElementById('sortedArr').innerHTML = '<p>Sorted Using ' + sort + ' (Top Down) Sort: </p>' + randArr;
+      }
+    } else {
+      document.getElementById('sortedArr').innerHTML = '<p>Sorted Using ' + sort + ' Sort: </p>' + randArr;
+    }
   }
 }
 
 // updating the webpage
+
+function toggleMerge() {
+  mergeBottomUp = !mergeBottomUp;
+  const button = document.getElementById('mergeType');
+  if (mergeBottomUp) {
+    button.innerHTML = 'Bottom Up';
+  } else {
+    button.innerHTML = 'Top Down';
+  }
+  activeSort(chosen);
+}
 
 // active sort css changer with help from: https://www.w3schools.com/w3css/w3css_tabulators.asp
 function activeSort(type) {
@@ -63,6 +83,9 @@ function activeSort(type) {
   }
   const selected = document.getElementById(type);
   selected.className = 'selectedType';
+
+  const mergeTypeButton = document.getElementById('mergeType');
+  mergeTypeButton.style.display = 'none';
 
   const sort = document.getElementById('sort');
   const method = document.getElementById('method');
@@ -173,10 +196,55 @@ function activeSort(type) {
 
   }
   else if (chosen === 'Merge') {
+    mergeTypeButton.style.display = 'inline';
     sort.innerHTML = 'Merge Sort';
     tc.innerHTML = 'O(nlog(n))';
     sc.innerHTML = 'O(n)';
-    method.innerHTML = `Explanation not written yet.`
+    const mergeIntro = `
+    <p>
+    Merge sort splits the original array into subarrays, sorts the subarrays, and then merges the sorted subarrays to sort them. 
+    There are two approaches to implementing a merge sort: bottom up (not recursive) and top down (recursive).
+    </p>
+    <p>
+    Both methods use the helper function <span class="code">mergeSublists</span>, which takes an array <span class="code">arr</span>, 
+    a left starting index <span class="code">left</span>, a right starting index <span class="code">right</span>, 
+    the rightmost bound of the subarray <span class="code">end</span>, and a work array <span class="code">work</span>
+      <ol>
+        <li>
+          To merge the sublists, iterate through <span class="code">work</span> and add the smaller of the elements
+          at index <span class="code">left</span> or <span class="code">right</span> from <span class="code">arr</span>.
+        </li>
+        <li>
+          Use another variable <span class="code">j</span> to keep track of the right subarray. Once <span class="code">left==right</span>
+          or <span class="code">right==end</span>, you can just copy over the rest of the other subarray which hadn't been fully added to the work array.
+        </li>
+        <li>Copy the contents of <span class="code">work</span> into <span class="code">arr</span></li>
+      </ol>
+    </p>
+    `
+    if (mergeBottomUp) {
+      method.innerHTML = mergeIntro + `
+      <h2> Bottom Up </h2>
+      <p>
+        Loop <span class="code">width</span> from 1 to array length <span class="code">n</span>, doubling the width for each loop.
+        <ul>
+          <li>Loop <span class="code">i</span> from 0 to <span class="code">n</span>, 
+          incrementing <span class="code">i</span> by <span class="code">width*2</span> each loop.</li>
+          <ul>
+            <li>The left subarray begins at index <span class="code">i</span>.</li>
+            <li>The right subarray begins at index <span class="code">i+width</span>.</li>
+            <li>The end of the right subarray is at index <span class="code">i+(2*width).</span></li> 
+            <li>Pass these values into <span class="code">mergeSublists</span>.</li>
+          </ul>
+        </ul>
+      </p>
+      `
+    } else {
+      method.innerHTML = mergeIntro + `
+      <h2>Top Down</h2>
+      Explanation in progress.
+      `
+    }
   }
   else if (chosen === 'Heap') {
     sort.innerHTML = 'Heap Sort';
@@ -233,8 +301,13 @@ function doSort() {
     quickSort(sortedArr, 0, visualLen - 1);
   }
   else if (chosen === 'Merge') {
+    if (mergeBottomUp) {
+      sortedArr = mergeSortBottomUp(sortedArr);
+    } else {
+      sortedArr = mergeSortTopDown(sortedArr);
+    }
+
     // add if else later for top down bottom up options
-    sortedArr = mergeSortBottomUp(sortedArr);
     // sortedArr = mergeSortTopDown(sortedArr);
     // document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
 
@@ -350,8 +423,8 @@ function mergeSortBottomUp(arr) {
       mergeSublists(arr, i, leftSubEnd, rightSubEnd, work);
     }
 
-    console.log("arr: " + arr);
-    console.log("work: " + work);
+    // console.log("arr: " + arr);
+    // console.log("work: " + work);
     arr = copyArray(work);
   }
 
@@ -476,6 +549,8 @@ function stepSort() {
     const sortStep = document.createElement('h3');
     sortStep.innerHTML = 'Quick Sort Steps';
     vis.appendChild(sortStep);
+
+    quickSteps = 0.5;
 
     quickSortSteps(stepsArr, 0, visualLen - 1);
     // stepsDiv.innerHTML = "Quick Sort Steps not implemented yet";
@@ -615,7 +690,7 @@ function quickSortSteps(arr, left, right) {
       if (j == piv) {
         item.style.backgroundColor = '#ffff44';
       }
-      if (j < piv && j >= left ) {
+      if (j < piv && j >= left) {
         item.style.backgroundColor = '#ffdddd';
       }
       if (j <= right && j >= left) {
@@ -643,7 +718,7 @@ function quickSortSteps(arr, left, right) {
       if (j == piv) {
         item.style.backgroundColor = '#ffff44';
       }
-      if (j > piv && j <= right ) {
+      if (j > piv && j <= right) {
         item.style.backgroundColor = '#ddddff';
       }
       if (j >= left && j <= right) {
