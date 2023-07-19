@@ -101,6 +101,7 @@ button {
   width: fit-content;
   font-family: monospace;
   margin: 1em 0;
+  transition: 0.25s;
 }
 button:active {
   background-color: #aaa;
@@ -122,4 +123,10 @@ li{
   #content  { display: grid; justify-content: center;}
   #visuals { padding: 0; align-self: center; justify-self: center;}
   #stepsArr {max-height: none; overflow-y: auto;}
+}
+
+h3 {
+  position: sticky;
+  top: 0px;
+  background-color: white;
 }
