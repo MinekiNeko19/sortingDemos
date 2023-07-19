@@ -242,7 +242,30 @@ function activeSort(type) {
     } else {
       method.innerHTML = mergeIntro + `
       <h2>Top Down</h2>
-      Explanation in progress.
+      <p>
+        Let the following function be called <span class="code">mergeTopDown</span> that takes an array <span class="code">arr</span>,
+        a left bounding index <span class="code">start</span>, a right bounding index <span class="code">end</span>, and a work array <span class="code">work</span>.
+        <ol>
+          <li>
+            If the subarray bounded by <span class="code">start</span> and <span class="code">end</span> has a length of 2 or more,
+            let <span class="code">mid</span> be equal to <span class="code">end - start - 1</span>.
+          </li>
+          <li>
+            Recursively call <span class="code">mergeTopDown</span>, passing in <span class="code">arr</span>, <span class="code">start</span>, 
+            <span class="code">mid</span>, and <span class="code">work</span>, to sort the left subarray.
+          </li>
+            <ul><li>After this call, copy the contents of <span class="code">work</span></li> into <span class="code">arr</span></ul>
+          <li>
+            Recursively call <span class="code">mergeTopDown</span>, passing in <span class="code">arr</span>, <span class="code">mid</span>, 
+            <span class="code">end</span>, and <span class="code">work</span>, to sort the right subarray.
+          </li>
+            <ul><li>After this call, copy the contents of <span class="code">work</span></li> into <span class="code">arr</span></ul>
+          <li>
+            Call <span class="code">mergeSublists</span> to merge the subarrays, passing <span class="code">arr</span>, <span class="code">start</span>,
+            <span class="code">mid</span>, <span class="code">end</span>, and <span class="code">work</span> as parameters.
+          </li>
+        </ol>
+      </p>
       `
     }
   }
