@@ -182,7 +182,41 @@ function activeSort(type) {
     sort.innerHTML = 'Heap Sort';
     tc.innerHTML = 'O(nlog(n))';
     sc.innerHTML = 'O(n)';
-    method.innerHTML = `Explanation not written yet.`
+    method.innerHTML = `
+    <p>
+      Heap sort utilizes recursion and the heap data structure to sort elements. <br>
+      A heap is a complete binary tree where the children of a node are both greater (min-heap) or less (max-heap) than the node's value. 
+      For this explanation, consider the max-heap.<br> <br  >
+      Heapify the array, remove the greatest element (the root element) from the heap from the heap, heapify the reduced array, and repeat until the heap is empty.
+    </p>
+    <p>
+      For the following, consider an array of length <span class="code">n</span>.
+    <ol>
+      <li>
+        Build the heap by iterating <span class="code">i</span> backwards from <span class="code">(n/2) + 1</span> until 0.
+        Call the helper function <span class="code">heapify</span> each iteration, passing the array, array length, and <span class="code">i</span>
+        as the parameters <span class="code">arr</span>, the heap size <span class="code">n</span>, and the root index <span class="code">i</span> respectively.
+      </li>
+        <ul>
+          <li>
+            The index of the root node of the heap is <span class="code">i</span>.
+            The index of the left node of the root is <span class="code">2*i+1</span>.
+            The index of the right node of the root is <span class="code">2*i+2</span>.
+          </li>
+          <li>
+            If the root node value is less than either its left or right node, then swap their values and heapify the swapped child,
+            passing the swapped child's index as <span class="code">i</span>. 
+          </li>
+        </ul>
+      <li>
+        Iterate <span class="code">i</span> from the <span class="code">n</span>-1 to 0. For each iteration, 
+        swap the values at index <span class="code">0</span> and <span class="code">i</span> 
+        and then heapify the array with heap size <span class="code">i</span>.
+      </li>
+        <ul><li>After heapifying, the greatest value in the heap will always be at index <span class="code">0</span></li></ul>
+    </ol>
+  </p>
+    `
   }
 }
 
@@ -444,7 +478,8 @@ function stepSort() {
     stepsDiv.innerHTML = "Merge Sort Steps not implemented yet";
   }
   else if (chosen === 'Heap') {
-    stepsDiv.innerHTML = "Heap Sort Steps not implemented yet";
+    heapSortSteps();
+    // stepsDiv.innerHTML = "Heap Sort Steps not implemented yet";
   }
   // updateSortedArray(chosen);
   // console.log(sortedArr);
@@ -540,7 +575,7 @@ function insertionSortSteps() {
       item.innerHTML = arr[j];
       if (j <= i) {
         item.style.backgroundColor = '#ddd';
-      } 
+      }
       if (j == element) {
         item.style.backgroundColor = '#ffff44';
       }
@@ -572,4 +607,73 @@ function swap(arr = sortedArr, i, j) {
   const temp = arr[i];
   arr[i] = arr[j];
   arr[j] = temp;
+}
+
+
+
+function heapSortSteps() {
+  const arr = copyArray(unsortedArr);
+  const n = arr.length;
+
+  const vis = document.getElementById('stepsArr');
+  vis.innerHTML = '';
+  const sortStep = document.createElement('h3');
+  sortStep.innerHTML = 'Heap Sort Steps';
+  vis.appendChild(sortStep);
+
+  const s1 = document.createElement('p');
+  s1.innerHTML = 'Step 1: Build the heap.'
+  vis.appendChild(s1);
+
+  // build the heap
+  for (let i = Math.floor(n / 2 + 1); i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+
+  const arrDiv = document.createElement('div');
+  arrDiv.className = 'array';
+
+  for (let j = 0; j < arr.length; j++) {
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.setAttribute('id', j);
+    item.innerHTML = arr[j]
+    arrDiv.appendChild(item);
+  }
+  vis.appendChild(arrDiv);
+
+  // extract the root, which is always the largest
+  // iterate backwards b/c we are building the heap starting from the back of the array
+  let k = 2;
+  for (let i = n - 1; i >= 0; i--) {
+    swap(arr, 0, i);
+    // calls heap on the reduced heap
+    heapify(arr, i, 0)
+
+    const arrDiv = document.createElement('div');
+    arrDiv.className = 'array';
+
+    for (let j = 0; j < arr.length; j++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.setAttribute('id', j);
+      item.innerHTML = arr[j];
+      if (j == 0) {
+        item.style.backgroundColor = '#ccccff';
+      }
+      if (j > i) {
+        item.style.backgroundColor = '#ddd';
+      } 
+      if (j == i) {
+        item.style.backgroundColor = '#ffff44';
+      }
+      arrDiv.appendChild(item);
+    }
+    const label = document.createElement('p');
+    label.innerHTML = 'Step ' + Number(k) + ': heap size ' + i;
+    vis.appendChild(label);
+    vis.appendChild(arrDiv);
+
+    k++;
+  }
 }

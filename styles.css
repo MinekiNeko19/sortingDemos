@@ -37,12 +37,11 @@ body {
 
 #content {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 #information {
   padding: 4em;
-  width: auto;
 }
 
 .bold {
@@ -56,9 +55,9 @@ body {
 #visuals {
   display: grid;
   justify-content: center;
-  width: fit-content;
+  min-width: 400px;
   height: fit-content;
-  margin: 2% 10% 2% 4%;
+  padding: 2% 4%;
 }
 
 #controls {
