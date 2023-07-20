@@ -248,7 +248,7 @@ function activeSort(type) {
         <ol>
           <li>
             If the subarray bounded by <span class="code">start</span> and <span class="code">end</span> has a length of 2 or more,
-            let <span class="code">mid</span> be equal to <span class="code">end - start - 1</span>.
+            let <span class="code">mid</span> be equal to the floor of <span class="code">(end + start)/2</span>.
           </li>
           <li>
             Recursively call <span class="code">mergeTopDown</span>, passing in <span class="code">arr</span>, <span class="code">start</span>, 
@@ -576,13 +576,14 @@ function stepSort() {
     // stepsDiv.innerHTML = "Quick Sort Steps not implemented yet";
   }
   else if (chosen === 'Merge') {
-    mergeSteps = 1;
     stepsArr = copyArray(unsortedArr);
     if (mergeBottomUp) {
+      mergeSteps = 1;
       stepsArr = mergeSortBottomUpSteps(stepsArr);
     } else {
-      // sortedArr = mergeSortTopDown(sortedArr);
-      stepsDiv.innerHTML = "Merge Sort (Top Down) Steps not implemented yet";
+      mergeSteps = 0;
+      stepsArr = mergeSortTopDownSteps(stepsArr);
+      // stepsDiv.innerHTML = "Merge Sort (Top Down) Steps not implemented yet";
     }
     // stepsDiv.innerHTML = "Merge Sort Steps not implemented yet";
   }
@@ -816,6 +817,75 @@ function mergeSortBottomUpSteps(arr) {
   return arr;
 }
 
+function mergeSortTopDownSteps(arr) {
+  let work = copyArray(arr);
+  const vis = document.getElementById('stepsArr');
+  vis.innerHTML = '';
+  const sortStep = document.createElement('h3');
+  sortStep.innerHTML = 'Merge Sort (Top Down) Steps';
+  vis.appendChild(sortStep);
+  arr = topDownSplitMergeSteps(arr, 0, arr.length, work, 0);
+  // arr = copyArray(work);
+  // console.log(work);
+  return arr;
+}
+
+function topDownSplitMergeSteps(arr, begin, end, work, mStep) {
+  const vis = document.getElementById('stepsArr');
+  if (end - begin > 1) {
+    const middle = Math.floor((begin + end) / 2);
+
+    arr = topDownSplitMergeSteps(arr, begin, middle, work, mStep += 1);
+    // arr = copyArray(work);
+
+    const arrDiv = document.createElement('div');
+    arrDiv.className = 'array';
+
+    for (let j = 0; j < arr.length; j++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.setAttribute('id', j);
+      item.innerHTML = arr[j];
+      if (j >= begin && j < middle) {
+        item.style.backgroundColor = '#ffdddd';
+      }
+      arrDiv.appendChild(item);
+    }
+    const label = document.createElement('p');
+    label.innerHTML = 'Stack Height ' + Number(mStep) + ' (Left Subarray)';
+    vis.appendChild(label);
+    vis.appendChild(arrDiv);
+
+    mStep--;
+
+    arr = topDownSplitMergeSteps(arr, middle, end, work, mStep += 1);
+    // arr = copyArray(work);
+
+    const arrDiv2 = document.createElement('div');
+    arrDiv2.className = 'array';
+
+    for (let j = 0; j < arr.length; j++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.setAttribute('id', j);
+      item.innerHTML = arr[j];
+      if (j >= middle && j < end) {
+        item.style.backgroundColor = '#ddddff';
+      }
+      arrDiv2.appendChild(item);
+    }
+    const label2 = document.createElement('p');
+    label2.innerHTML = 'Stack Height:  ' + Number(mStep) + ' (Right Subarray)';
+    vis.appendChild(label2);
+    vis.appendChild(arrDiv2);
+
+    mStep--;
+    mergeSublists(arr, begin, middle, end, work);
+  }
+
+  arr = copyArray(work);
+  return arr;
+}
 
 
 
