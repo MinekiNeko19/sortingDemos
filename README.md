@@ -2,7 +2,8 @@
 
 A website built to explain and help visualize five sorting algorithsm: selection sort, insertion sort, quick sort, merge sort, and heap sort.
 
-### General CSS, HTML, Javascript Documentation Reference: https://developer.mozilla.org/en-US/
+### General CSS, HTML, Javascript Documentation Reference:
+https://developer.mozilla.org/en-US/
 
 ## Algorithm References
 Quick Sort:  https://www.geeksforgeeks.org/quick-sort/#
