@@ -1,7 +1,6 @@
 let unsortedArr = [];
 let sortedArr = [];
 let stepsArr = [];
-// let workArr = [];
 let visualLen = 10;
 let chosen = 'Selection';
 let mergeBottomUp = true;
@@ -34,7 +33,6 @@ function randomizeArray(len = visualLen, min = -500, max = 500) {
 function updateRandomArray() {
   let randArr = '<div class="array">';
   unsortedArr.forEach((item) => randArr += ('<div class="item">' + item + '</div>'));
-  // document.getElementById('originalArr').innerHTML = 'Generated Random Array: [' + unsortedArr.toString() + ']';
 
   document.getElementById('originalArr').innerHTML = '<p>Generated Random Array: </p>' + randArr;
 }
@@ -45,8 +43,6 @@ function updateSortedArray(sort) {
   } else {
     let randArr = '<div class="array">';
     sortedArr.forEach((item) => randArr += ('<div class="item">' + item + '</div>'));
-
-    // document.getElementById('sortedArr').innerHTML = 'Sorted Using ' + sort + ' Sort: [' + sortedArr.toString() + ']';
     if (sort === 'Merge') {
       if (mergeBottomUp) {
         document.getElementById('sortedArr').innerHTML = '<p>Sorted Using ' + sort + ' (Bottom Up) Sort: </p>' + randArr;
@@ -75,8 +71,9 @@ function toggleMerge() {
 // active sort css changer with help from: https://www.w3schools.com/w3css/w3css_tabulators.asp
 function activeSort(type) {
   chosen = type;
+
+  // Switch tabs visually
   const nav = document.getElementsByClassName('selectedType');
-  console.log(nav);
   for (let i = 0; i < nav.length; i++) {
     // replace doesn't affect the original string
     nav[i].className = nav[i].className.replace('selectedType', 'sortType');
@@ -87,10 +84,15 @@ function activeSort(type) {
   const mergeTypeButton = document.getElementById('mergeType');
   mergeTypeButton.style.display = 'none';
 
+  // clear steps
+  document.getElementById('stepsArr').innerHTML = '';
+
+  // get common document elements
   const sort = document.getElementById('sort');
   const method = document.getElementById('method');
   const tc = document.getElementById('tc');
   const sc = document.getElementById('sc');
+
   if (chosen === 'Selection') {
     sort.innerHTML = 'Selection Sort';
     tc.innerHTML = 'O(n<sup>2</sup>)';
@@ -312,7 +314,6 @@ function activeSort(type) {
 }
 
 function doSort() {
-  // console.log(chosen);
   sortedArr = copyArray(unsortedArr);
   if (chosen === 'Selection') {
     selectionSort(sortedArr);
@@ -329,16 +330,12 @@ function doSort() {
     } else {
       sortedArr = mergeSortTopDown(sortedArr);
     }
-    // document.getElementById('sortedArr').innerHTML = "Merge Sort not implemented yet";
 
   }
   else if (chosen === 'Heap') {
     heapSort(sortedArr);
-    // document.getElementById('sortedArr').innerHTML = "Heap Sort not implemented yet";
   }
   updateSortedArray(chosen);
-  // console.log(unsortedArr);
-  // console.log(sortedArr);
 }
 
 // // sorting algorithms
@@ -358,20 +355,15 @@ function selectionSort(arr) {
       if (min > arr[j]) {
         min = arr[j];
         index = j;
-        // console.log(min);
       }
     }
 
     // swap i and j index values
-    // console.log('swapping: ' + sortedArr[i] + ' and ' + sortedArr[index]);
     if (arr[index] !== undefined) {
       arr[i] = min;
       arr[index] = temp;
     }
   }
-  // updateSortedArray('Selection');
-  // console.log(unsortedArr);
-  // console.log(sortedArr);
 }
 
 
@@ -392,9 +384,6 @@ function insertionSort(arr) {
       }
     }
   }
-  // console.log(unsortedArr);
-  // console.log(sortedArr);
-  // updateSortedArray('Insertion');
 }
 
 // the pivot ultimately doesn't matter since it will be inserted at the right place anyway
@@ -442,12 +431,8 @@ function mergeSortBottomUp(arr) {
 
       mergeSublists(arr, i, leftSubEnd, rightSubEnd, work);
     }
-
-    // console.log("arr: " + arr);
-    // console.log("work: " + work);
     arr = copyArray(work);
   }
-
   return arr;
 }
 
@@ -456,7 +441,6 @@ function mergeSortTopDown(arr) {
   let work = copyArray(arr);
   topDownSplitMerge(arr, 0, arr.length, work);
   arr = copyArray(work);
-  // console.log(work);
   return arr;
 }
 
@@ -492,9 +476,6 @@ function mergeSublists(arr, left, right, end, work) {
       j++;
     }
   }
-
-  // console.log("arr: " + arr);
-  // console.log("work: " + work);
 }
 
 // with guidance from https://www.geeksforgeeks.org/heap-sort/#
@@ -545,22 +526,16 @@ function heapify(arr, n, i) {
 
 
 
-// show the steps
-let swap1 = -1;
-let swap2 = -1;
-
+// steps functions
 function stepSort() {
   let stepsDiv = document.getElementById('stepsArr');
   stepsDiv.innerHTML = '';
 
-  // console.log(chosen);
   if (chosen === 'Selection') {
     selectionSortSteps();
-    // document.getElementById('sortedArr').innerHTML = "Selection Sort Steps not implemented yet";
   }
   else if (chosen === 'Insertion') {
     insertionSortSteps();
-    // stepsDiv.innerHTML = "Insertion Sort Steps not implemented yet";
   }
   else if (chosen === 'Quick') {
     stepsArr = copyArray(unsortedArr);
@@ -573,7 +548,6 @@ function stepSort() {
     quickSteps = 0.5;
 
     quickSortSteps(stepsArr, 0, visualLen - 1);
-    // stepsDiv.innerHTML = "Quick Sort Steps not implemented yet";
   }
   else if (chosen === 'Merge') {
     stepsArr = copyArray(unsortedArr);
@@ -583,22 +557,14 @@ function stepSort() {
     } else {
       mergeSteps = 0;
       stepsArr = mergeSortTopDownSteps(stepsArr);
-      // stepsDiv.innerHTML = "Merge Sort (Top Down) Steps not implemented yet";
     }
-    // stepsDiv.innerHTML = "Merge Sort Steps not implemented yet";
   }
   else if (chosen === 'Heap') {
     heapSortSteps();
-    // stepsDiv.innerHTML = "Heap Sort Steps not implemented yet";
   }
-  // updateSortedArray(chosen);
-  // console.log(sortedArr);
 }
 
 function selectionSortSteps() {
-  // stepsArr = unsortedArr.copyWithin();
-  // console.log(unsortedArr);
-  // console.log(sortedArr);
   stepsArr = copyArray(unsortedArr);
 
   const vis = document.getElementById('stepsArr');
@@ -811,7 +777,6 @@ function mergeSortBottomUpSteps(arr) {
       vis.appendChild(arrDiv);
       mergeSteps++;
     }
-    // arr = copyArray(work);
   }
 
   return arr;
@@ -825,8 +790,6 @@ function mergeSortTopDownSteps(arr) {
   sortStep.innerHTML = 'Merge Sort (Top Down) Steps';
   vis.appendChild(sortStep);
   arr = topDownSplitMergeSteps(arr, 0, arr.length, work, 0);
-  // arr = copyArray(work);
-  // console.log(work);
   return arr;
 }
 
@@ -836,7 +799,6 @@ function topDownSplitMergeSteps(arr, begin, end, work, mStep) {
     const middle = Math.floor((begin + end) / 2);
 
     arr = topDownSplitMergeSteps(arr, begin, middle, work, mStep += 1);
-    // arr = copyArray(work);
 
     const arrDiv = document.createElement('div');
     arrDiv.className = 'array';
@@ -859,7 +821,6 @@ function topDownSplitMergeSteps(arr, begin, end, work, mStep) {
     mStep--;
 
     arr = topDownSplitMergeSteps(arr, middle, end, work, mStep += 1);
-    // arr = copyArray(work);
 
     const arrDiv2 = document.createElement('div');
     arrDiv2.className = 'array';
